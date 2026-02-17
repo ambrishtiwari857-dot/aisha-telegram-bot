@@ -1,12 +1,19 @@
 import os
 import telebot
+import time
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "Hi 😊 Main Aisha hoon 💕")
+@bot.message_handler(func=lambda m: True)
+def reply(message):
+    bot.reply_to(message, "Heyy 💖 I'm alive and running!")
 
-bot.infinity_polling()
+while True:
+    try:
+        print("Bot started...")
+        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    except Exception as e:
+        print(f"Error: {e}")
+        time.sleep(5)
